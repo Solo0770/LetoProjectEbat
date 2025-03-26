@@ -8,7 +8,7 @@ let lastAngle = 0;
 let currentRotation = 0;
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
-const sensitivity = 0.2;
+const sensitivity = 1;
 const sweepAngle = 240; // діапазон обертання
 const minAngle = 180;
 
