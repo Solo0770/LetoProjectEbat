@@ -7,9 +7,6 @@ const fillLine = document.getElementById('fillLine');
 let isDragging = false;
 let lastAngle = 0;
 let currentRotation = 0;
-let centerX = 0;
-let centerY = 0;
-
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 const sensitivity = 1;
@@ -20,17 +17,16 @@ const getAngle = (x, y, cx, cy) =>
   Math.atan2(y - cy, x - cx) * (180 / Math.PI);
 
 wrapper.addEventListener('touchstart', (e) => {
-  isDragging = true;
-
-  const touch = e.touches[0];
-  const rect = knob.getBoundingClientRect();
-  centerX = rect.left + rect.width / 2;
-  centerY = rect.top + rect.height / 2;
-  lastAngle = getAngle(touch.clientX, touch.clientY, centerX, centerY);
-
-  e.preventDefault(); // щоб не скролився екран
-}, { passive: false });
-
+    isDragging = true;
+  
+    const touch = e.touches[0];
+    const rect = knob.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    lastAngle = getAngle(touch.clientX, touch.clientY, cx, cy);
+  
+    e.preventDefault(); // щоб не скролився екран
+  }, { passive: false });
   
 
 document.addEventListener('mouseup', () => {
@@ -39,8 +35,6 @@ document.addEventListener('mouseup', () => {
 
 document.addEventListener('touchend', () => {
     isDragging = false;
-    centerX = 0;
-    centerY = 0;
   });
   
 
@@ -81,7 +75,11 @@ document.addEventListener('touchmove', (e) => {
     if (window.getSelection().toString().length > 0) return;
   
     const touch = e.touches[0];
-    const angle = getAngle(touch.clientX, touch.clientY, centerX, centerY);
+    const rect = knob.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+  
+    const angle = getAngle(touch.clientX, touch.clientY, cx, cy);
     let delta = angle - lastAngle;
   
     if (delta > 180) delta -= 360;
@@ -100,8 +98,7 @@ document.addEventListener('touchmove', (e) => {
 
   
     lastAngle = angle;
-  }, { passive: false });
-  
+  }, { passive: false });  
 
 knob.addEventListener('mousedown', (e) => {
     isDragging = true;
