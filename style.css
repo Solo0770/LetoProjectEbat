@@ -8,6 +8,7 @@ body {
     position: relative;
     overflow: hidden;
     z-index: 0;
+    user-select: none;
 
     background-image: url("./images/sky.jpg");
     background-size: cover;
@@ -26,7 +27,10 @@ body {
     position: relative;
     width: 100%;
     padding-top: 100%;
+    opacity: 0; /* ❗️Приховуємо крутилку до ініціалізації */
+    transition: opacity 0.3s ease;
   }
+  
   
   .knob {
     position: absolute;
@@ -74,6 +78,8 @@ body {
     background-color: #ccc;
     border-radius: 3px;
     overflow: hidden;
+    opacity: 0; /* спочатку приховано */
+    transition: opacity 0.3s ease;
   }
   
   .progress-fill-line {
@@ -81,7 +87,7 @@ body {
     width: 0%;
     background-color: #4cd964;
     border-radius: 3px;
-    transition: width 0.3s ease;
+    transition: width 0.2s ease;
   }
 
   .card {

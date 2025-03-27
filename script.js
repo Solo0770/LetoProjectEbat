@@ -1,6 +1,8 @@
 const knob = document.getElementById('knob');
 const valueDisplay = document.getElementById('valueDisplay');
 const wrapper = document.querySelector('.knob-wrapper');
+const fillLine = document.getElementById('fillLine');
+
 
 let isDragging = false;
 let lastAngle = 0;
@@ -59,8 +61,9 @@ document.addEventListener('mousemove', (e) => {
 
   knob.style.transform = `rotate(${visualRotation}deg)`;
   valueDisplay.textContent = `${percentage}%`;
-  const fillLine = document.getElementById('fillLine');
   fillLine.style.width = `${percentage}%`;
+  localStorage.setItem('knobRotation', currentRotation);
+
 
 
   lastAngle = angle;
@@ -91,6 +94,8 @@ document.addEventListener('touchmove', (e) => {
     knob.style.transform = `rotate(${visualRotation}deg)`;
     valueDisplay.textContent = `${percentage}%`;
     fillLine.style.width = `${percentage}%`;
+    localStorage.setItem('knobRotation', currentRotation);
+
   
     lastAngle = angle;
   }, { passive: false });
@@ -104,4 +109,38 @@ knob.addEventListener('mousedown', (e) => {
     const centerY = rect.top + rect.height / 2;
     lastAngle = getAngle(e.clientX, e.clientY, centerX, centerY);
   });
+
+
+
+
+// Ініціалізація при завантаженні
+window.addEventListener('DOMContentLoaded', () => {
+  let savedRotation = parseFloat(localStorage.getItem('knobRotation'));
+  if (!isNaN(savedRotation)) {
+    currentRotation = clamp(savedRotation, 0, sweepAngle);
+  } else {
+    currentRotation = 0;
+  }
+
+  const percentage = Math.round((currentRotation / sweepAngle) * 100);
+  const visualRotation = minAngle + currentRotation;
+
+  knob.style.transition = 'none';
+  knob.style.transform = `rotate(${visualRotation}deg)`;
+  valueDisplay.textContent = `${percentage}%`;
+  fillLine.style.transition = 'none'; // ⛔️ не анімуємо при старті
+  void knob.offsetWidth; // Форсує застосування стилів
+  fillLine.style.width = `${percentage}%`;
+
+ // ✅ потім вмикаємо плавність для наступних змін
+requestAnimationFrame(() => {
+  fillLine.style.transition = 'width 0.3s ease';
+  knob.style.transition = 'transform 0.25s ease-out';
+  document.querySelector('.knob-wrapper').style.opacity = '1';
+  document.querySelector('.progress-line').style.opacity = '1';
+});
+});
+
+
   
+
