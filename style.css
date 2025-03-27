@@ -56,16 +56,15 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 6vw;
-    font-weight: 600;
-    color: #7fddf5;
-    text-shadow:
-      0 0 30px rgba(0, 204, 255, 0.5),
-      0 0 60px rgba(0, 204, 255, 0.4),
-      0 0 90px rgba(0, 204, 255, 0.25),
-      0 0 140px rgba(0, 204, 255, 0.15),
-      0 0 200px rgba(0, 204, 255, 0.1);
+    font-weight: 700;
+    color: transparent; /* прозорий текст — вся магія у тінях */
+    letter-spacing: -1px;
     pointer-events: none;
+    text-shadow:
+      0 1px 1px rgba(255, 255, 255, 0.6),   /* верхнє світло (ефект вигравірування) */
+      0 -1px 1px rgba(0, 0, 0, 0.4);        /* тінь знизу (глибина) */
   }
+  
 
   .progress-line {
     margin-top: 20px;
@@ -101,28 +100,27 @@ body {
 
   .knob-marker {
     position: absolute;
-    top: 6.5%;
+    top: 12%;
     left: 50%;
+    width: 8px;
+    height: 16%;
     transform: translateX(-50%);
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #dcdcdc;
-    border: 1px solid rgba(0,0,0,0.15);
-    backdrop-filter: blur(2px);
-  }
-  
-  .knob-marker::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #ffffff, #b5b5b5);
+    border-radius: 2px;
+    background: linear-gradient(
+      to bottom,
+      #d8d8d8 0%,
+      #a0a0a0 40%,
+      #6a6a6a 60%,
+      #bcbcbc 100%
+    );
+    outline: 1px solid rgba(0,0,0,0.2);
+    outline-offset: -1px;
     box-shadow:
-      inset -1px -1px 6px rgba(255,255,255,0.8),
-      inset 2px 2px 4px rgba(0,0,0,0.15),
-      0 6px 10px rgba(0,0,0,0.25),
-      0 0 12px rgba(255,255,255,0.4);
+      inset -1px -1px 1px rgba(255, 255, 255, 0.5),
+      inset 1px 1px 2px rgba(0, 0, 0, 0.3),
+      0 0 1px rgba(0, 0, 0, 0.4);
+    
+    pointer-events: none;
   }
 
   @media (max-width: 480px) {

@@ -2,15 +2,14 @@ const knob = document.getElementById('knob');
 const valueDisplay = document.getElementById('valueDisplay');
 const wrapper = document.querySelector('.knob-wrapper');
 
-
 let isDragging = false;
 let lastAngle = 0;
 let currentRotation = 0;
 
 const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
 const sensitivity = 1;
-const sweepAngle = 240; // діапазон обертання
-const minAngle = 180;
+const sweepAngle = 150+150; // діапазон обертання
+const minAngle = 180+30;
 
 const getAngle = (x, y, cx, cy) =>
   Math.atan2(y - cy, x - cx) * (180 / Math.PI);
